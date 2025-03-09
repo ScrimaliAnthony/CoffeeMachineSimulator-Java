@@ -2,15 +2,13 @@ package machine;
 
 class Display {
 
-    static String menu() {
-
-        return "Starting to make a coffee" + System.lineSeparator() +
-                "Grinding coffee beans" + System.lineSeparator() +
-                "Boiling water" + System.lineSeparator() +
-                "Mixing boiled water with crushed coffee beans" + System.lineSeparator() +
-                "Pouring coffee into the cup" + System.lineSeparator() +
-                "Pouring some milk into the cup" + System.lineSeparator() +
-                "Coffee is ready!";
+    static String menu(int watterAvailable, int milkAvailable, int coffeeBeansAvailable, int money, int disposableCups) {
+        return "The coffee machine has:" + System.lineSeparator() +
+                watterAvailable + " ml of water" + System.lineSeparator() +
+                milkAvailable + " ml of milk" + System.lineSeparator() +
+                coffeeBeansAvailable + " g of coffee beans" + System.lineSeparator() +
+                disposableCups + " disposable cups" + System.lineSeparator() +
+                "$" + money + " of money";
     }
 
     static String howManyCups() {
@@ -35,4 +33,13 @@ class Display {
     static String lessNumberOfServing(int cupAvailable) {
         return "No, I can make only " + cupAvailable + " cup(s) of coffee";
     }
+
+    static String askAction() {
+        return "Write action (buy, fill, take):";
+    }
+
+    static String take(int money) {
+        return "I gave you $" + money;
+    }
+
 }
