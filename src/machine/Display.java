@@ -23,4 +23,16 @@ class Display {
                 milkYouNeed + " ml of milk" + System.lineSeparator() +
                 coffeeYouNeed + " g of coffee beans";
     }
+
+    static String exactNumberOfServing() {
+        return "Yes, I can make that amount of coffee";
+    }
+
+    static String moreNumberOfServing(int nbServe) {
+        return "Yes, I can make that amount of coffee (and even " + nbServe + " more than that)";
+    }
+
+    static String lessNumberOfServing(int cupAvailable) {
+        return "No, I can make only " + cupAvailable + " cup(s) of coffee";
+    }
 }
