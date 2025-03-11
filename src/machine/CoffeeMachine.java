@@ -8,10 +8,8 @@ public class CoffeeMachine {
         CoffeeMachineComputer coffeeMachineComputer = new CoffeeMachineComputer(sc);
         User user = new User(coffeeMachineComputer);
 
-        System.out.println(Display.menu(coffeeMachineComputer.getWatterAvailable() , coffeeMachineComputer.getMilkAvailable() , coffeeMachineComputer.getCoffeeBeansAvailable() , coffeeMachineComputer.getMoney() , coffeeMachineComputer.getDisposableCups()));
-        user.action(sc);
-        System.out.println(Display.menu(coffeeMachineComputer.getWatterAvailable() , coffeeMachineComputer.getMilkAvailable() , coffeeMachineComputer.getCoffeeBeansAvailable() , coffeeMachineComputer.getMoney() , coffeeMachineComputer.getDisposableCups()));
-
-//        coffeeMachineComputer.setHowManyCups(sc);
+        while(!coffeeMachineComputer.getExit()) {
+            user.action(sc);
+        }
     }
 }

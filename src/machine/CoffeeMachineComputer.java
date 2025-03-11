@@ -4,9 +4,9 @@ import java.util.Scanner;
 
 class CoffeeMachineComputer {
 
-    private final int watterForOneCup = 200;
-    private final int milkForOneCup = 50;
-    private final int coffeeBeansForOneCup = 15;
+    private static int clean = 0;
+
+    private boolean exit = false;
 
     private int watterAvailable = 400;
     private int milkAvailable = 540;
@@ -14,118 +14,90 @@ class CoffeeMachineComputer {
     private int money = 550;
     private int disposableCups = 9;
 
-    private int howManyCups;
+    CoffeeMachineComputer(Scanner sc) {}
 
-    CoffeeMachineComputer(Scanner sc) {
-//        System.out.println("Write how many ml of water the coffee machine has:");
-//        watterAvailable = sc.nextInt();
-//        System.out.println("Write how many ml of milk the coffee machine has:");
-//        milkAvailable = sc.nextInt();
-//        System.out.println("Write how many grams of coffee beans the coffee machine has:");
-//        coffeeBeansAvailable = sc.nextInt();
-    }
-
-    void setHowManyCups(Scanner sc) {
-        System.out.println(Display.howManyCups());
-        howManyCups = sc.nextInt();
-        int howManyCupAvailable = howManyCupAvailable();
-
-        if(howManyCupAvailable - howManyCups == 0) {
-            System.out.println(Display.exactNumberOfServing());
-        } else if (howManyCupAvailable - howManyCups > 0) {
-            System.out.println(Display.moreNumberOfServing(howManyCupAvailable - howManyCups));
-        } else {
-            System.out.println(Display.lessNumberOfServing(howManyCupAvailable));
-        }
-    }
-
-    private void ingredientYouNeed() {
-        int watterYouNeed = watterForOneCup * howManyCups;
-        int milkYouNeed = milkForOneCup * howManyCups;
-        int coffeeYouNeed = coffeeBeansForOneCup * howManyCups;
-    }
-
-    private int howManyCupAvailable() {
-        int[] cupAvailable = {howManyCupAvailableWithWatter(), howManyCupAvailableWithMilk(), howManyCupAvailableWithCoffeeBeen()};
-        int howManyCupAvailable = cupAvailable[0];
-
-        for(int i = 1; i < 3; i++) {
-            if(cupAvailable[i] < howManyCupAvailable) {
-                howManyCupAvailable = cupAvailable[i];
+    void choose(Scanner sc, User user) {
+        boolean choosing = true;
+        while(choosing) {
+            System.out.println("What do you want to buy? 1 - espresso, 2 - latte, 3 - cappuccino, back - to main menu:");
+            String whatYouWantToBuy = sc.nextLine();
+            switch (whatYouWantToBuy) {
+                case "1":
+                    buy(-250, 0, -16, -1, 4);
+                    return;
+                case "2":
+                    buy(-350, -75, -20, -1, 7);
+                    return;
+                case "3":
+                    buy(-200, -100, -12, -1, 6);
+                    return;
+                case "back":
+                    return;
+                case "exit":
+                    setExit();
+                    return;
+                default:
             }
         }
-        return howManyCupAvailable;
     }
 
-    private int howManyCupAvailableWithWatter() {
-        int nbCoffeeAvailableWithWatter = 0;
-        while(watterAvailable - watterForOneCup >= 0) {
-            watterAvailable = watterAvailable - watterForOneCup;
-            nbCoffeeAvailableWithWatter++;
+    private void buy(int watterNeed, int milkNeed, int coffeeBeansNeed, int disposableCupsNeed, int moneyNeed) {
+        if(checkIngredient(watterNeed, milkNeed, coffeeBeansNeed, disposableCupsNeed)) {
+            setWatterAvailable(watterNeed);
+            setMilkAvailable(milkNeed);
+            setCoffeeBeansAvailable(coffeeBeansNeed);
+            setMoney(moneyNeed);
+            setDisposableCups(disposableCupsNeed);
+            clean++;
+            System.out.println("I have enough resources, making you a coffee!\n");
         }
-        return nbCoffeeAvailableWithWatter;
     }
 
-    private int howManyCupAvailableWithMilk() {
-        int nbCoffeeAvailableWithMilk = 0;
-        while(milkAvailable - milkForOneCup >= 0) {
-            milkAvailable = milkAvailable - milkForOneCup;
-            nbCoffeeAvailableWithMilk++;
+    private boolean checkIngredient(int watterNeed, int milkNeed, int coffeeBeansNeed, int DisposableCupsNeed) {
+        int i = 0;
+        int[] ingredients = {watterNeed, milkNeed, coffeeBeansNeed, DisposableCupsNeed};
+        int[] available = {watterAvailable, milkAvailable, coffeeBeansAvailable, disposableCups};
+        String[] ingredientNames = {"water", "milk", "coffee beans", "disposable cups"};
+
+        for(int ingredient : ingredients) {
+            if(checking(ingredient, available[i], ingredientNames[i])) {
+                return false;
+            };
+            i++;
         }
-        return nbCoffeeAvailableWithMilk;
+        return true;
     }
 
-    private int howManyCupAvailableWithCoffeeBeen() {
-        int nbCoffeeAvailableWithCoffeeBeen = 0;
-            while(coffeeBeansAvailable - coffeeBeansForOneCup >= 0) {
-                coffeeBeansAvailable = coffeeBeansAvailable - coffeeBeansForOneCup;
-                nbCoffeeAvailableWithCoffeeBeen++;
-            }
-        return nbCoffeeAvailableWithCoffeeBeen;
-    }
-
-    void buy(Scanner sc) {
-        System.out.println("What do you want to buy? 1 - espresso, 2 - latte, 3 - cappuccino:");
-        int whatYouWantToBuy = sc.nextInt();
-        switch (whatYouWantToBuy) {
-            case 1:
-                setWatterAvailable(-250);
-                setCoffeeBeansAvailable(-16);
-                setMoney(4);
-                setDisposableCups(-1);
-                break;
-            case 2:
-                setWatterAvailable(-350);
-                setMilkAvailable(-75);
-                setCoffeeBeansAvailable(-20);
-                setMoney(7);
-                setDisposableCups(-1);
-                break;
-            case 3:
-                setWatterAvailable(-200);
-                setMilkAvailable(-100);
-                setCoffeeBeansAvailable(-12);
-                setMoney(6);
-                setDisposableCups(-1);
-                break;
-            default:
-                buy(sc);
+    private boolean checking(int ingredientNeed, int ingredientToCheck, String ingredientName) {
+        if (ingredientNeed + ingredientToCheck < 0 ) {
+            System.out.println(Display.checkingFalse(ingredientName));
+            return true;
         }
+        return false;
     }
 
     void fill(Scanner sc) {
         System.out.println("Write how many ml of water you want to add:");
-        setWatterAvailable(sc.nextInt());
+        int waterToAdd = sc.nextInt();
+        sc.nextLine();
+        setWatterAvailable(waterToAdd);
 
         System.out.println("Write how many ml of milk you want to add:");
-        setMilkAvailable(sc.nextInt());
+        int milkToAdd = sc.nextInt();
+        sc.nextLine();
+        setMilkAvailable(milkToAdd);
 
         System.out.println("Write how many grams of coffee beans you want to add:");
-        setCoffeeBeansAvailable(sc.nextInt());
+        int beansToAdd = sc.nextInt();
+        sc.nextLine();
+        setCoffeeBeansAvailable(beansToAdd);
 
         System.out.println("Write how many disposable cups you want to add:");
-        setDisposableCups(sc.nextInt());
+        int cupsToAdd = sc.nextInt();
+        sc.nextLine();
+        setDisposableCups(cupsToAdd);
     }
+
 
     public int getWatterAvailable() {
         return watterAvailable;
@@ -170,6 +142,23 @@ class CoffeeMachineComputer {
 
     public void setDisposableCups(int disposableCupsToAdd) {
         disposableCups = disposableCups + disposableCupsToAdd;
+    }
+
+    public boolean getExit() {
+        return exit;
+    }
+
+    public void setExit() {
+        exit = !exit;
+    }
+
+    public int getClean() {
+        return clean;
+    }
+
+    public void setClean() {
+        clean = 0;
+        System.out.println("I have been cleaned!");
     }
 
 }

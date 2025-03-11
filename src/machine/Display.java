@@ -35,11 +35,15 @@ class Display {
     }
 
     static String askAction() {
-        return "Write action (buy, fill, take):";
+        return "Write action (buy, fill, take, clean, remaining, exit):";
     }
 
     static String take(int money) {
         return "I gave you $" + money;
+    }
+
+    static String checkingFalse(String ingredient) {
+        return "Sorry, not enough " + ingredient + "!";
     }
 
 }
