@@ -55,3 +55,4 @@ src/
 javac -d out $(find src -name "*.java")
 jar cfm CoffeeMachineSimulator.jar manifest.txt -C out .
 ```
+    
